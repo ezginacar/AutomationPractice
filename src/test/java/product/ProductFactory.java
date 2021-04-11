@@ -21,7 +21,7 @@ public class ProductFactory {
         } else if(category.equalsIgnoreCase("WOMEN")){
             product = new Women();
         } else{
-            throw new Exception("No Category found with -> " + category);
+            product = new Other();
         }
 
         return product;
