@@ -36,15 +36,13 @@ public class ProductFactory {
         String expected = testProduct.toString();
 
         int i = -1; // eşleşip eşleşmediğini kontrol etmek için
-        int j = 0;
+      
         while (iterator.hasNext()) {
             String actual = iterator.next().toString();
             if (actual.equals(expected)) {
                 i = i + 1;
                 break;
             }
-
-            j = j + 1;
 
         }
         //ürün ismi-fiyatı eşleşmediyse map e yeni bir öge eklenecek
