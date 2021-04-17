@@ -1,5 +1,7 @@
 package stepDefinitions;
 
+import helpers.JSHelpers;
+import helpers.SeleniumHelpers;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.Assert;
@@ -9,13 +11,12 @@ import pages.ProductListPage;
 import product.Product;
 import product.ProductFactory;
 
-import static product.ProductFactory.products;
 
 public class ProductSteps {
     HomePage homePage = new HomePage();
     ProductListPage productList = new ProductListPage();
-
-    Product product;
+    Product product ;
+    ProductFactory productFactory = ProductFactory.getProductInstance();
 
 
     @When("^Click on the (.*?) category title from the top menu$")
@@ -28,18 +29,14 @@ public class ProductSteps {
         }
 
 
-        product = ProductFactory.getProduct(catName);
+        product = ProductFactory.getProductInstance().getProduct(catName);
     }
 
     @When("^Click on the (.*?) subcategory that is under (.*?) category title$")
     public void clickSubCategoryOnTheTopMenu(String subCategory, String category) throws Exception {
-       // subCategory = onlyTheFirtsLetter(subCategory);
-       // category = onlyTheFirtsLetter(category);
+
         homePage.hoverAndClickSubcategory(category,subCategory);
-
-        product = ProductFactory.getProduct(category);
-
-
+        product = ProductFactory.getProductInstance().getProduct(category);
 
     }
 
@@ -48,6 +45,8 @@ public class ProductSteps {
         product.name(productList.getProductNameForNTHRank(rank));
         product.price(productList.getProductPriceeForNTHRank(rank));
         productList.clickAddToCartForNTHRank(rank);
+
+        productFactory.removeEmptyObject();
 
     }
 

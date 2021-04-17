@@ -11,8 +11,7 @@ public class CartSteps {
 
     @Then("^Close the popup$")
     public void closeThePopup(){
-        cart.cartClosePopup.click();
-        logger.info("Cart popup is closed");
+        cart.closePopup();
 
     }
 

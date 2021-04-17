@@ -8,12 +8,14 @@ import io.cucumber.java.en.When;
 
 import org.junit.Assert;
 import pages.HomePage;
+import pages.OrderPage;
 
 import static utils.LogUtil.*;
 import static helpers.SeleniumHelpers.*;
 
 public class CommonSteps {
     HomePage homePage = new HomePage();
+    OrderPage orderPage = new OrderPage();
 
     @Given("^Navigate to the homepage$")
     public void navigateURL() throws InterruptedException {
@@ -43,6 +45,16 @@ public class CommonSteps {
     public void validateCartQuantity(int quantity) throws InterruptedException {
        int i =  homePage.cartProductAmount();
        Assert.assertEquals(i ,quantity);
+    }
+
+
+    @When("Click on the Cart button")
+    public void click_on_the_cart_button() {
+        homePage.cartButton.click();
+        logger.info("Clicked on Cart to see order details..");
+
+        SeleniumHelpers.waitUntillVisibilityOfElement(orderPage.orderTitle);
+
     }
 
 
