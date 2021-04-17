@@ -1,17 +1,29 @@
 package pages;
 
 import base.BaseTest;
+import helpers.JSHelpers;
+import helpers.SeleniumHelpers;
 import jdk.internal.instrumentation.Logger;
+import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.PageFactory;
+import product.Product;
+import product.ProductFactory;
+
+import static org.junit.Assert.assertEquals;
 import static utils.LogUtil.logger;
 
+import java.beans.Expression;
+import java.rmi.server.ExportException;
+import java.util.Iterator;
 import java.util.List;
 
 public class OrderPage extends BaseTest {
+
+    ProductFactory productFactory = ProductFactory.getProductInstance();
 
     public OrderPage() {
         PageFactory.initElements(driver, this);
@@ -25,6 +37,7 @@ public class OrderPage extends BaseTest {
     private String productName = "/td[@class='cart_description']/p[@class='product-name']";
     private String productUnitPrice = "/td[@class='cart_unit']/span[@class='price']";
     private String productCartTotal = "/td[@class='cart_total']/span[@class='price']";
+    private String value = "/a";
 
 
     @FindBy(xpath = "(//table[@id='cart_summary']/tfoot/tr[@class='cart_total_price'])[3]/td[@id='total_price_container']/span[@id= 'total_price']")
@@ -33,24 +46,44 @@ public class OrderPage extends BaseTest {
     @FindBy(css ="a[class='cart_quantity_delete']")
     private List<WebElement> deleteButtonList;
 
+    @FindBy(id ="cart_title")
+    public WebElement orderTitle;
 
 
+    public void validateOrdersWithProductList(){
+        for (Product product : productFactory.getProducts()) {
+           String name =  product.getName();
+           Double price = product.getPrice();
+           String prodNames = productRow + productName + value;
+           String prodPrices = productRow + productUnitPrice ;
+
+           try {
+               List<WebElement> productNames = SeleniumHelpers.getElementList(prodNames);
+               JSHelpers.scrollThePageUntillElementVisible(productNames.get(0));
+
+               List<WebElement> productPrices = SeleniumHelpers.getElementList(prodPrices);
+
+               try {
+                   int i = SeleniumHelpers.getIndexOnList(productNames, name);
+                   String p = productPrices.get(i).getText().replace("$","");
+                   Double act = Double.parseDouble(p);
+
+                   Assert.assertEquals(price, act);
+
+               }catch (Exception e) {
+                   Assert.fail(String.format("Expected product '%s' not found on the cart", name));
+               }
+
+           }catch (Exception e){
+
+           }
 
 
-
-
-
-
-
-    public void getTotalPrice(double taxPrice, double shippingPrice) {
-
-        shippingPrice = 2.00;
-        taxPrice = 0;
-
-
-
-
+        }
     }
+
+
+
 
 
     public void removeCart(){

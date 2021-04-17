@@ -1,6 +1,7 @@
 package pages;
 
 import base.BaseTest;
+import helpers.JSHelpers;
 import helpers.SeleniumHelpers;
 import org.junit.Assert;
 import org.openqa.selenium.By;
@@ -24,7 +25,7 @@ public class HomePage extends BaseTest {
 
     private String categories = "//div[@id='block_top_menu']/ul[contains(@class, 'menu-content')]/li";
     private String name = "/a";
-    private String subCategory = "/ul/li";
+    private String subCategory = "/ul[contains(@class, 'submenu-container')]/li/a";
 
     @FindBys({
             @FindBy(css =".header_user_info>.login"),
@@ -40,6 +41,9 @@ public class HomePage extends BaseTest {
 
     @FindBy(xpath = "//div[@class='shopping_cart']/a")
     private WebElement shoppingCartButton;
+
+    @FindBy(css = "div.shopping_cart>a")
+    public WebElement cartButton;
 
 
 
@@ -71,18 +75,20 @@ public class HomePage extends BaseTest {
         logger.info(String.format("Clicked on ' %s ' category on the top menu", catName));
     }
 
-    public void hoverAndClickSubcategory(String category, String subCategory) throws InterruptedException {
+    public void hoverAndClickSubcategory(String category, String subCtgry) throws InterruptedException {
         String text = categories + name;
         List<WebElement> categoryList = getElementList(text);
+        JSHelpers.scrollThePageUntillElementVisible(categoryList.get(0));
+
         int i = getIndexOnList(categoryList, category);
         WebElement categoryElement = categoryList.get(i);
+        SeleniumHelpers.mouseHover(categoryElement);
+        String subcategories = String.format("(%s)[%d]%s",categories,i+1, subCategory);
 
-        String text2 = String.format("(%s)%s", categories,subCategory);
-        List<WebElement> subCategoryList = getElementList(text2);
-        int j = getIndexOnList(subCategoryList, subCategory);
+        List<WebElement> subCategoryList = getElementList(subcategories);
+        int j = getIndexOnList(subCategoryList, subCtgry);
         WebElement subCategoryElement = subCategoryList.get(j);
-
-        mouseHoverAndClick(categoryElement,subCategoryElement);
+        subCategoryElement.click();
         logger.info(String.format("Clicked on ' %s ' subcategory under ' %s ' category",subCategory,category));
     }
 
