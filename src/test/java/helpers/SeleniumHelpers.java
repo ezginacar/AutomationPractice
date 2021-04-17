@@ -47,14 +47,6 @@ public class SeleniumHelpers extends BaseTest {
 
     public static String getText(WebElement element ){return element.getText();}
 
-    public static WebElement getElement(By by){
-        return driver.findElement(by);
-    }
-
-    public static List<WebElement> getElementList(By by){
-        return driver.findElements(by);
-    }
-
     public static Boolean visibilityOfElement(WebElement element){
         Boolean visibility = false;
         if(element.isDisplayed())
@@ -111,6 +103,12 @@ public class SeleniumHelpers extends BaseTest {
         actions.moveToElement(hoverElement).perform();
         waitUntillVisibilityOfElement(clickElement);
         actions.moveToElement(hoverElement).click(clickElement).build().perform();
+    }
+
+    public static void mouseHover(WebElement hoverElement) throws InterruptedException {
+        Actions actions = new Actions(driver);
+        actions.moveToElement(hoverElement).perform();
+
     }
 
 
