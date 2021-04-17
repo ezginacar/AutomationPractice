@@ -30,5 +30,6 @@ public class Other implements Product{
                 "name='" + name + '\'' +
                 ", price=" + price +
                 '}';
+
     }
 }
