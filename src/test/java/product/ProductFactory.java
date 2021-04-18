@@ -43,14 +43,14 @@ public class ProductFactory {
 
     public void removeEmptyObject(){
         Iterator<Product> iterator = products.iterator();
-        int i =0;
+     
         while (iterator.hasNext()) {
 
             if(iterator.next().toString().contains("{name='null', price=0.0}")){
                 iterator.remove();
                 break;
             }
-            i = i+1;
+     
         }
     }
 
