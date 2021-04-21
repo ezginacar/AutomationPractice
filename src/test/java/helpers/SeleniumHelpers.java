@@ -5,29 +5,19 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Objects;
+
 import java.util.concurrent.TimeUnit;
 
 import static utils.PropertyUtil.getProperties;
 import static utils.LogUtil.logger;
 
 public class SeleniumHelpers extends BaseTest {
-    private String url = getProperties("mainurl");
 
     public static void navigateURL() throws InterruptedException {
         String url = getProperties("mainurl");
-        driver.get(url);
-        driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
-        wait(5);
-        driver.manage().window().maximize();
-        logger.info("Navigated to-> "+url);
-    }
-
-    public void navigateGivenPage(String path) throws InterruptedException {
-        url = String.format("%s/%s.xhtml",url,path);
         driver.get(url);
         driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
         wait(5);
@@ -56,7 +46,8 @@ public class SeleniumHelpers extends BaseTest {
     }
 
     public static void waitUntillVisibilityOfElement(WebElement element){
-       // wait.until(ExpectedConditions.visibilityOf(element));
+        WebDriverWait wait =new WebDriverWait(driver, TimeUnit.SECONDS.toSeconds(10));
+        wait.until(ExpectedConditions.visibilityOf(element));
     }
 
     public static void wait(int seconds) throws InterruptedException {
@@ -65,14 +56,6 @@ public class SeleniumHelpers extends BaseTest {
 
     }
 
-
-    public static WebElement findElementByText(List<WebElement> elements, String text){
-        return elements
-                .stream()
-                .filter(element -> Objects.equals(getText(element), text))
-                .findFirst()
-                .orElseThrow(()-> new NoSuchElementException("No web element found with text -> "+text));
-    }
 
     public static Integer getIndexOnList(List<WebElement> elements, String text) {
         int value = -1;
@@ -98,12 +81,6 @@ public class SeleniumHelpers extends BaseTest {
         return driver.findElement(By.xpath(expression));
     }
 
-    public static void mouseHoverAndClick(WebElement hoverElement, WebElement clickElement) throws InterruptedException {
-        Actions actions = new Actions(driver);
-        actions.moveToElement(hoverElement).perform();
-        waitUntillVisibilityOfElement(clickElement);
-        actions.moveToElement(hoverElement).click(clickElement).build().perform();
-    }
 
     public static void mouseHover(WebElement hoverElement) throws InterruptedException {
         Actions actions = new Actions(driver);
