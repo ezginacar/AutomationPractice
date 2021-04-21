@@ -20,6 +20,12 @@ public class LoginSteps {
 
     @When("^Try to login with given infos below:$")
     public void login(DataTable dataTable){
+        /*
+        datatable format:(the 1st row if for only information(!)
+        |mail     |password  |
+        |${mail}  |${password}|
+        */
+
         List<String> data = dataTable.row(1);
         String mail = data.get(0);
         String passwd = data.get(1);

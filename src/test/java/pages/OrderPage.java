@@ -3,7 +3,6 @@ package pages;
 import base.BaseTest;
 import helpers.JSHelpers;
 import helpers.SeleniumHelpers;
-import jdk.internal.instrumentation.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;

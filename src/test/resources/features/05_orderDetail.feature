@@ -1,3 +1,4 @@
+@testtcl
 Feature: order detail controls
 
   Background: Login with valid user informations

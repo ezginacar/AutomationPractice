@@ -5,6 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import static helpers.SeleniumHelpers.*;
+import static utils.LogUtil.logger;
 
 public class MyAccount extends BaseTest {
 
@@ -25,10 +26,13 @@ public class MyAccount extends BaseTest {
 
     public void login(String mail, String password) {
         visibilityOfElement(loginEmailInput);
-        sendKeys(loginEmailInput,mail);
+        loginEmailInput.sendKeys(mail);
+        logger.info(String.format("Typed '%s' on email field ",mail));
         visibilityOfElement(loginEmailInput);
-        sendKeys(loginPasswordInput,password);
+        loginPasswordInput.sendKeys(password);
+        logger.info(String.format("Typed '%s' on password field ", password));
         loginSubmitButton.click();
+        logger.info("Clicked on login submit button");
 
     }
 

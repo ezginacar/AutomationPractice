@@ -45,6 +45,9 @@ public class HomePage extends BaseTest {
     @FindBy(css = "div.shopping_cart>a")
     public WebElement cartButton;
 
+    @FindBy(css = "div.header_user_info>a.logout")
+    public WebElement signOutButton;
+
 
 
 

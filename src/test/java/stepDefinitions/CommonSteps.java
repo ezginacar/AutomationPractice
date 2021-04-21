@@ -34,9 +34,14 @@ public class CommonSteps {
     }
 
     @Then("^Should seen Sign out button$")
-    public void shouldSeenSignInOutButton(){
-        String text = homePage.signInButton.getText();
-        Assert.assertEquals("Sign in", text);
+    public void shouldSeenSignOutButton(){
+        String text = homePage.signOutButton.getText();
+        try {
+            Assert.assertEquals("Sign out", text);
+            logger.info("Signout button seemed");
+        }catch (Exception e){
+            Assert.fail("Expected button, Sign out not seemed ");
+        }
 
     }
 
